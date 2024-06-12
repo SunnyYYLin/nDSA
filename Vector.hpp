@@ -12,9 +12,7 @@ protected:
     void expand();
     void shrink();
     // sort
-    bool bubble(Rank lo, Rank hi);
     void bubbleSort(Rank lo, Rank hi);
-    Rank maxItem(Rank lo, Rank hi);
     void selectionSort(Rank lo, Rank hi);
     void merge(Rank lo, Rank mi, Rank hi);
     void mergeSort(Rank lo, Rank hi);
