@@ -70,13 +70,19 @@ public:
     ListNodePosi<T> selectMax() {
         return selectMax(header->succ, _size);
     }
-    ListNodePosi<T> insertAsFirst(T const& e);
-    ListNodePosi<T> insertAsLast(T const& e);
-    ListNodePosi<T> insert(ListNodePosi<T> p, T const& e);
-    ListNodePosi<T> insert(T const& e, ListNodePosi<T> p) {
-        return insert(p, e);
+    // Insert
+    ListNodePosi<T> insertAsFirst(T const& e) {
+        return insert(e, header->succ)
     }
+    ListNodePosi<T> insertAsLast(T const& e) {
+        return insert(e, trailer)
+    }
+    ListNodePosi<T> insert(ListNodePosi<T> p, T const& e) {
+        return insert(e, p->succ);
+    }
+    ListNodePosi<T> insert(T const& e, ListNodePosi<T> p);
     T remove(ListNodePosi<T> p);
+    // Write
     void sort(ListNodePosi<T> p, int n);
     void sort() {
         sort(first(), _size);
