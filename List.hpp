@@ -1,16 +1,19 @@
-template <typename T>
-using ListNodePosi = ListNode<T>*;
+#ifndef LIST_HPP
+#define LIST_HPP
+using Rank = int;
 
 template <typename T>
 struct ListNode {
     T data;
-    ListNodePosi<T> pred;
-    ListNodePosi<T> succ;
+    ListNode<T>* pred;
+    ListNode<T>* succ;
     ListNode() {}
-    ListNode(T e, ListNodePosi<T> p = nullptr, ListNodePosi<T> s = nullptr) : data(e), pred(p), succ(s) {}
-    ListNodePosi<T> insertAsPred(T const& e);
-    ListNodePosi<T> insertAsSucc(T const& e);
+    ListNode(T e, ListNode<T>* p = nullptr, ListNode<T>* s = nullptr) : data(e), pred(p), succ(s) {}
+    ListNode<T>* insertAsPred(T const& e);
+    ListNode<T>* insertAsSucc(T const& e);
 };
+template <typename T>
+using ListNodePosi = ListNode<T>*;
 
 template <typename T>
 class List {
@@ -21,7 +24,7 @@ private:
 protected:
     void init();
     int clear();
-    void copyNodes(ListNodePosi<T>, Rank)
+    void copyNodes(ListNodePosi<T>, Rank);
     ListNodePosi<T> merge(ListNodePosi<T>, Rank, List<T>&, ListNodePosi<T>, Rank);
     void mergeSort(ListNodePosi<T>, Rank);
     void selectionSort(ListNodePosi<T>, Rank);
@@ -41,11 +44,7 @@ public:
         copyNodes(p, n);
     }
     // Read-only
-    ~List() {
-        clear();
-        delete header;
-        delete trailer;
-    }
+    ~List();
     Rank size() const {
         return _size;
     }
@@ -72,10 +71,10 @@ public:
     }
     // Insert
     ListNodePosi<T> insertAsFirst(T const& e) {
-        return insert(e, header->succ)
+        return insert(e, header->succ);
     }
     ListNodePosi<T> insertAsLast(T const& e) {
-        return insert(e, trailer)
+        return insert(e, trailer);
     }
     ListNodePosi<T> insert(ListNodePosi<T> p, T const& e) {
         return insert(e, p->succ);
@@ -83,6 +82,7 @@ public:
     ListNodePosi<T> insert(T const& e, ListNodePosi<T> p);
     T remove(ListNodePosi<T> p);
     // Write
+    T operator[](Rank r) const;
     void sort(ListNodePosi<T> p, int n);
     void sort() {
         sort(first(), _size);
@@ -94,3 +94,4 @@ public:
     template <typename VST>
     void traverse(VST&);
 };
+#endif

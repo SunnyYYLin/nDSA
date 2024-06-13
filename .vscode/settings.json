@@ -15,6 +15,10 @@
         "streambuf": "cpp",
         "functional": "cpp",
         "tuple": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "ranges": "cpp",
+        "utility": "cpp",
+        "deque": "cpp"
     }
 }

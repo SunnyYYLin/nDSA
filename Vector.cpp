@@ -1,4 +1,5 @@
 #include "Vector.hpp"
+#include <iostream>
 
 template <typename T>
 void Vector<T>::copyFrom(T const* A, Rank lo, Rank hi) {
@@ -10,7 +11,7 @@ void Vector<T>::copyFrom(T const* A, Rank lo, Rank hi) {
 }
 
 template <typename T>
-T Vector<T>::get(Rank i) {
+T Vector<T>::get(Rank i) const {
     return _elem[i];
 }
 
@@ -100,6 +101,7 @@ Rank Vector<T>::dedup() {
             remove(i); // O(n - i)
         }
     }
+    return oldSize - _size;
 }
 
 // 练习：模仿此例，实现统一的减一、加倍、求和等更多的遍历功能
@@ -127,11 +129,11 @@ void checkOrder (Vector<T>& V) {
     };
 
     int unsorted = 0;
-    V.traverse(CheckOrder<T>(unsorted, V[0]));
+    V.traverse(CheckOrder(unsorted, V[0]));
     if (unsorted > 0) {
-        printf("Unsorted with %d adjacent inversion(s)\n", unsorted);
+        std::printf("Unsorted with %d adjacent inversion(s)\n", unsorted);
     } else {
-        printf("Sorted\n")
+        std::printf("Sorted\n");
     }
 }
 
@@ -171,7 +173,7 @@ Rank Vector<T>::search(T const& e, Rank lo, Rank hi) const {
         // 3-branch
         // pivot(lo, hi) := (lo + hi) >> 1
 template <typename T>
-static Rank binSearch(T* S, T const& e, Rank lo, Rank hi) {
+static Rank binSearchA(T* S, T const& e, Rank lo, Rank hi) {
     while (lo < hi) {
         Rank mi = (lo + hi) >> 1;
         if (e < S[mi]) {
@@ -188,7 +190,7 @@ static Rank binSearch(T* S, T const& e, Rank lo, Rank hi) {
         // Version B
         // Only 2-branch: more balanced, better better, worse worse
 template <typename T>
-static Rank binSearch(T* S, T const& e, Rank lo, Rank hi) {
+static Rank binSearchB(T* S, T const& e, Rank lo, Rank hi) {
     while (hi - lo > 1) {
         Rank mi = (lo + hi) >> 1;
         (e < S[mi]) ? hi = mi : lo = mi;
@@ -233,7 +235,7 @@ public:
         g -= f;
         return g;
     }
-}
+};
 
 template <typename T>
 static Rank fibSearch(T* S, T const& e, Rank lo, Rank hi) {
@@ -279,7 +281,7 @@ void Vector<T>::sort(Rank lo, Rank hi) {
         case 2: mergeSort(lo, hi); break;
         case 3: heapSort(lo, hi); break;
         case 4: quickSort(lo, hi); break;
-        default: shellSort(lo, hi); break;
+        // default: shellSort(lo, hi); break;
     }
 }
 
@@ -287,29 +289,29 @@ void Vector<T>::sort(Rank lo, Rank hi) {
     // decrease-and-conquer: scale is reduced into n-k after kth traversal
     // stable
         // fool
-template <typename T>
-void Vector<T>::bubbleSort(Rank lo, Rank hi) {
-    while (lo < --hi) {
-        for (Rank i = lo; i < hi; i++) {
-            if (_elem[i] > _elem[i + 1]) {
-                swap(_elem[i], _elem[i + 1]);
-            }
-        }
-    }
-}
+// template <typename T>
+// void Vector<T>::bubbleSort(Rank lo, Rank hi) {
+//     while (lo < --hi) {
+//         for (Rank i = lo; i < hi; i++) {
+//             if (_elem[i] > _elem[i + 1]) {
+//                 swap(_elem[i], _elem[i + 1]);
+//             }
+//         }
+//     }
+// }
 
         // early-stop: shutdown if no swap occurs
-template <typename T>
-void Vector<T>::bubbleSort(Rank lo, Rank hi) {
-    for (bool sorted = false; sorted = !sorted; hi--) {
-        for (Rank i = lo; i < hi; i++) {
-            if (_elem[i-1] > _elem[i]) { // i - 1 because n elements only need n-1 comparisons
-                swap(_elem[i-1], _elem[i]);
-                sorted = false;
-            }
-        }
-    }
-}
+// template <typename T>
+// void Vector<T>::bubbleSort(Rank lo, Rank hi) {
+//     for (bool sorted = false; sorted = !sorted; hi--) {
+//         for (Rank i = lo; i < hi; i++) {
+//             if (_elem[i-1] > _elem[i]) { // i - 1 because n elements only need n-1 comparisons
+//                 swap(_elem[i-1], _elem[i]);
+//                 sorted = false;
+//             }
+//         }
+//     }
+// }
 
         // skipping: when the last two ordered segments are connected
 template <typename T>
@@ -369,4 +371,63 @@ void Vector<T>::mergeSort(Rank lo, Rank hi) {
     mergeSort(lo, mi);
     mergeSort(mi, hi);
     merge(lo, mi, hi);
+}
+
+int main() {
+    Vector<int> V;
+    V.insert(0, 1);
+    V.insert(1, 2);
+    V.insert(2, 3);
+    V.insert(3, 4);
+    V.insert(4, 5);
+    V.insert(5, 6);
+    V.insert(6, 7);
+    V.insert(7, 8);
+    V.insert(8, 9);
+    V.insert(9, 10);
+    V.insert(10, 11);
+    V.insert(11, 12);
+    V.insert(12, 13);
+    V.insert(13, 14);
+    V.insert(14, 15);
+    V.insert(15, 16);
+    V.insert(16, 17);
+    V.insert(17, 18);
+    V.insert(18, 19);
+    V.insert(19, 20);
+    V.insert(20, 21);
+    V.insert(21, 22);
+    V.insert(22, 23);
+    V.insert(23, 24);
+    V.insert(24, 25);
+    V.insert(25, 26);
+    V.insert(26, 27);
+    V.insert(27, 28);
+    V.insert(28, 29);
+    V.insert(29, 30);
+    V.insert(30, 31);
+    V.insert(31, 32);
+    V.insert(32, 33);
+    V.insert(33, 34);
+    V.insert(34, 35);
+    V.insert(35, 36);
+    V.insert(36, 37);
+    V.insert(37, 38);
+    V.insert(38, 39);
+    V.insert(39, 40);
+    V.insert(40, 41);
+    V.insert(41, 42);
+    V.insert(42, 43);
+    V.insert(43, 44);
+    V.insert(44, 45);
+    V.insert(45, 46);
+    V.insert(46, 47);
+    V.insert(47, 48);
+    V.insert(48, 49);
+    V.insert(49, 50);
+    V.insert(50, 51);
+    V.insert(51, 52);
+    V.insert(52, 53);
+    V.insert(53, 54);
+    printf("%d\n", V.search(10));
 }

@@ -1,19 +1,22 @@
+#ifndef BITMAP_CPP
+#define BITMAP_CPP
+
 #include "Bitmap.hpp"
 
 void Bitmap::set(int k) {
-    expand(k);
+    this->expand();
     M[k >> 3] |= (0x80 >> (k & 0x07));
     // k & 0x07 is equivalent to k % 8;
     // 0b10000000 >> k'
 }
 
 void Bitmap::clear(int k) {
-    expand(k);
+    this->expand();
     M[k >> 3] &= ~(0x80 >> (k & 0x07));
 }
 
 bool Bitmap::test(int k) {
-    expand(k);
+    this->expand();
     return M[k >> 3] & (0x80 >> (k & 0x07));
 }
 
@@ -37,3 +40,4 @@ void Eratosthenes(Bitmap& B, int n) {
         }
     }
 }
+#endif

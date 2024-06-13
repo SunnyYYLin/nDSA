@@ -2,7 +2,7 @@
 
 /*------- Construction ------*/
 template <typename T>
-void List::init() {
+void List<T>::init() {
     header = new ListNode<T>;
     trailer = new ListNode<T>;
     header->succ = trailer;
@@ -14,7 +14,7 @@ void List::init() {
 
 // O(n)
 template <typename T>
-void List::copyNodes(ListNodePosi<T> p, Rank n) {
+void List<T>::copyNodes(ListNodePosi<T> p, Rank n) {
     init();
     while (n--) {
         insertAsLast(p->data);
@@ -45,7 +45,7 @@ int List<T>::clear() {
 template <typename T>
 T List<T>::operator[](Rank r) const {
     ListNodePosi<T> p = first();
-    while (0 < r--) {`
+    while (0 < r--) {
         p = p->succ;
     }
     return p->data;
@@ -109,16 +109,11 @@ int List<T>::dedup() {
             r++;
         }
     }
+    return oldSize - _size;
 }
 
 template <typename T>
 void List<T>::traverse(void (*visit)(T&)) {
-    for (ListNodePosi<T> p = header->succ; p != trailer; p = p->succ) {
-        visit(p->data);
-    }
-}
-template <typename T, typename VST>
-void List<T>::traverse(VST & visit) {
     for (ListNodePosi<T> p = header->succ; p != trailer; p = p->succ) {
         visit(p->data);
     }
@@ -154,9 +149,11 @@ int List<T>::uniquify() {
 }
 
 // Sort
+#include <cstdlib> // Add the missing include statement
+
 template <typename T>
-void List<T>::sort(ListNodePosi<T> p, int n) {
-    switch (rand() % 3) {
+void List<T>::sort(ListNodePosi<T> p, Rank n) {
+    switch (std::rand() % 3) { // Replace rand() with std::rand()
         case 1:
             insertionSort(p, n);
             break;
@@ -173,7 +170,7 @@ void List<T>::sort(ListNodePosi<T> p, int n) {
     // selection sort
         // \Omega(n^2)
 template <typename T>
-void List<T>::selectionSort(ListNodePosi<T> p, int n) {
+void List<T>::selectionSort(ListNodePosi<T> p, Rank n) {
     ListNodePosi<T> head = p->pred;
     ListNodePosi<T> tail = p;
     for (int i = 0; i < n; i++) {
@@ -190,7 +187,7 @@ void List<T>::selectionSort(ListNodePosi<T> p, int n) {
         // 可以！...利用高级数据结构，selectMax()可改进至O(logn)
         // 当然，如此立即可以得到O(nlogn)的排序算法
 template <typename T>
-ListNodePosi<T> List<T>::selectMax(ListNodePosi<T> p, int n) {
+ListNodePosi<T> List<T>::selectMax(ListNodePosi<T> p, Rank n) {
     ListNodePosi<T> max = p;
     for (ListNodePosi<T> cur = p; 1 < n; n--) {
         if (!((cur = cur->succ)->data < max->data)) {
@@ -205,7 +202,7 @@ ListNodePosi<T> List<T>::selectMax(ListNodePosi<T> p, int n) {
     // insertion sort
     // O(n^2) means; O(1) space
 template <typename T>
-void List<T>::insertionSort(ListNodePosi<T> p, int n) {
+void List<T>::insertionSort(ListNodePosi<T> p, Rank n) {
     for (int r = 0; r < n; r++) { // O(r+1)
         insert(search(p->data, r, p), p->data);
         p = p->succ;
@@ -216,7 +213,7 @@ void List<T>::insertionSort(ListNodePosi<T> p, int n) {
     // merge sort
     // O(nlogn)
 template <typename T>
-void List<T>::mergeSort(ListNodePosi<T> & p, int n) {
+void List<T>::mergeSort(ListNodePosi<T> p, Rank n) {
     if (n < 2) {
         return;
     }
@@ -232,7 +229,7 @@ void List<T>::mergeSort(ListNodePosi<T> & p, int n) {
 
     // O(n+m)
 template <typename T>
-ListNodePosi<T> List<T>::merge(ListNodePosi<T> p, int n, List<T>& L, ListNodePosi<T> q, int m) {
+ListNodePosi<T> List<T>::merge(ListNodePosi<T> p, Rank n, List<T>& L, ListNodePosi<T> q, Rank m) {
     ListNodePosi<T> pp = p->pred;
     while ((0 < m) && (q != p)) {
         if ((0 < n) && (p->data <= q->data)) {

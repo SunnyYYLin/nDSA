@@ -1,4 +1,5 @@
 #include "Vector.hpp"
+#include <cstring>
 
 class Bitmap: public Vector<unsigned char>{
 private:

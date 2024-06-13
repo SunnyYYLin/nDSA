@@ -1,3 +1,6 @@
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
+
 #define DEFAULT_CAPACITY 3
 using Rank = unsigned int;
 
@@ -19,6 +22,7 @@ protected:
     Rank partition(Rank lo, Rank hi); // 轴点
     void quickSort(Rank lo, Rank hi);
     void heapSort(Rank lo, Rank hi);
+    
 public:
     // Construction
     Vector (Rank c = DEFAULT_CAPACITY, Rank s = 0, T v = 0) {
@@ -60,8 +64,9 @@ public:
     }
     Rank search(T const& e, Rank lo, Rank hi) const;
     // Write
+    T get(Rank r) const;
+    T put(Rank r, T const& e);
     T& operator[] (Rank r) const; // left value
-    const T& operator[] (Rank r) const; // right value
     Vector<T>& operator= (Vector<T> const&);
     T remove(Rank r) {
         T e = _elem[r];
@@ -111,3 +116,19 @@ public:
         vec.traverse(Print()); // 调用traverse，传递Print函数对象
     */
 };
+
+template <typename T>
+class Stack: public Vector<T> {
+public:
+    void push(T const& e) {
+        this->insert(e);
+    }
+    T pop() {
+        return this->remove(this->size() - 1);
+    }
+    T& top() {
+        return (*this)[this->size() - 1];
+    }
+};
+
+#endif
